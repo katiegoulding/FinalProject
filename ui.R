@@ -4,48 +4,19 @@ library(ggplot2)
 library(plotly)
 library(tidyr)
 # Reads in cleansed data
-simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv")
+simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
 
 ######## SECOND HOMEPAGE VIS ########
 
-count.per.sex <- select(simpleSpeedDating.df, ID, Sex) %>% 
-                  unique() %>% 
-                  group_by(Sex) %>% 
-                  summarize(count = n()) %>% 
-                  drop_na()
-total.participants <- sum(count.per.sex$count)
-# Creates df with percent breakdown
-sex.df <- mutate(count.per.sex, ratio.sex = (count))
-# Creates an x-axis title
-x <- list(
-  title = "Sex"
-)
-# Creates a y-axis title
-y <- list(
-  title = "Number of persons identified with respective gender"
-)
-# Creates a title for the sex bar graph ***does not work***
-title.sex <- list(
-  title = "Sex breakdown of all participants"
-)
-# Produces plotly bar graph of sex breakdown
-sex.graph <- plot_ly(
-  x = sex.df$Sex,
-  y = sex.df$ratio.sex,
-  name = "Participant Sex Breakdown",
-  type = "bar",
-  color = sex.df$Sex,
-  showlegend = FALSE) %>% 
-  layout(title = title.sex, xaxis = x, yaxis = y)
-
-
-######## THIRD HOMEPAGE VIS ########
 
 ui <- navbarPage(
-  
   navbarPage("Speed Dating!",
-             tabPanel("Home", plotlyOutput("race.graph"), p("home!")),
+             tabPanel("Home", 
+                      h3("Racial breakdown of participants"),
+                      plotlyOutput("race.graph"),
+                      h3("Sex breakdown of participants"),
+                      plotlyOutput("sex.graph")),
              tabPanel("Tool - Find Match",
                       sidebarLayout(
                         sidebarPanel(

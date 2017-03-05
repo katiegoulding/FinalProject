@@ -26,7 +26,9 @@ ui <- fluidPage(
                    selected = NULL, inline = FALSE
       )
     ),
-    mainPanel()
+    mainPanel(
+      plotlyOutput("second.vis")
+    )
   )
 )
 

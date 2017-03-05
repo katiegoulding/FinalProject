@@ -5,8 +5,8 @@ library(plotly)
 library(tidyr)
 
 # setwd("~/Desktop/INFO 201 Autumn 17 HW/FinalProject")
-speed.data <- read.csv("data/simpleSpeedDating.df.csv")
-View(speed.data)
+speedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
+
 
 server <- function(input, output) {
   

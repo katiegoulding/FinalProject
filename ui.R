@@ -1,6 +1,9 @@
 library(shiny)
+library(dplyr)
+library(plotly)
+library(ggplot2)
 
-speedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
+simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
   titlePanel(title = "Speed Dating Data"),
@@ -10,18 +13,21 @@ ui <- fluidPage(
       # Select Box for graph
         #'input.dataset === ""',
         selectInput("racial_group", label = h5("Select a racial group"), 
-                    choices = list("Black/African American" = 1,
-                                   "European/Caucasian American" = 2,
-                                   "Latino/Hispanic American" = 3,
-                                   "Asian/Pacific Islander/Asian-American" = 4,
-                                   "Other" = 5), selected = 1),
+                    choices = list("Black/African American",
+                                   "European/Caucasian American",
+                                   "Latino/Hispanic American",
+                                   "Asian/Pacific Islander/Asian-American",
+                                   "Other"), selected = "Black/African American"),
         radioButtons("sex_select", label = h5("Select a Sex:"),
-                     choices = list("All" = 1, "Female" = 2, "Male" = 3),
+                     choices = list("All", "Female", "Male"),
                      selected = NULL, inline = FALSE
         )
       ),
     
     mainPanel(
+      p("This is the first visualization"),
+      tableOutput("table"),
+      plotlyOutput("first.vis")
     )
   )
 )

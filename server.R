@@ -7,7 +7,6 @@ library(tidyr)
 # setwd("~/Desktop/INFO 201 Autumn 17 HW/FinalProject")
 simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
-
 server <- function(input, output) {
   
  first.vis.data <- reactive({
@@ -22,15 +21,13 @@ server <- function(input, output) {
                             mutate("Total Interactions" = sum(Interactions)) %>%
                             filter(Match == "Yes" & Race.of.Partner != "NA") %>%
                             mutate("Percentage" = (Interactions / `Total Interactions`) * 100)
-  
-   
-   
    return(first.vis.speedDating)
  })
  
 output$first.vis <- renderPlotly({
+  
   plot_ly(first.vis.data(), x = ~Race.of.Partner, y = ~Percentage, type = "bar") %>%
-    layout(xaxis = list(title = "Race of Partner",tickangle = 45), yaxis = list(title = "Match Percentage"))
+    layout(xaxis = list(title = "Race of Partner",tickangle = 15), yaxis = list(title = "Match Percentage"), margin = 100)
 })
 }
 shinyServer(server)

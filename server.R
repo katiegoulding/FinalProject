@@ -7,7 +7,7 @@ library(tidyr)
 simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
 server <- function(input, output, session) {
-  data <- reactive({
+  second.vis.data <- reactive({
     speed.dating.df <- simpleSpeedDating.df
     #Selecting racial groups
     speed.dating.df <- filter(speed.dating.df, Race == input$racial.group.1 | Race == input$racial.group.2)
@@ -37,7 +37,7 @@ server <- function(input, output, session) {
   })
   
  output$second.vis <- renderPlotly({
-   plot_ly(data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
+   plot_ly(second.vis.data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
    layout(margin = list(b = 160))
  })
 }

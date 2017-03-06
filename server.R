@@ -6,10 +6,10 @@ library(tidyr)
 
 simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
-View(simpleSpeedDating.df)
+#View(simpleSpeedDating.df)
 
 server <- function(input, output, session) {
-  data <- reactive({
+  second.vis.data <- reactive({
     speed.dating.df <- simpleSpeedDating.df
     #Selecting racial groups
     speed.dating.df <- filter(speed.dating.df, Race == input$racial.group.1 | Race == input$racial.group.2)
@@ -37,16 +37,26 @@ server <- function(input, output, session) {
     return(speed.dating.long)
   })
 
+
   x <- list(
     title = "Preference",
     titlefont = NULL
   )
 
 # add for more hover details text=data()$my_text, hoverinfo = "text+x+y")
- output$second.vis <- renderPlotly({
-   plot_ly(data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-   layout(margin = 100, xaxis = x)
- })
-}
 
-shinyServer(server)
+  yaxis.max <- reactive ({
+    if(input$interest.select == "Attribute Rating") {
+      return(20)
+    }
+    return(10)
+  })
+  
+  
+ output$second.vis <- renderPlotly({
+   plot_ly(second.vis.data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
+   layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
+ })
+ 
+
+shinyServer(server)}

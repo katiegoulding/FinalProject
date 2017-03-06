@@ -67,17 +67,11 @@ server <- function(input, output) {
         title = "Sex breakdown of all participants"
       )
       # Produces plotly bar graph of sex breakdown
-      sex.graph <- plot_ly(
-        x = sex.df$Sex,
-        y = sex.df$ratio.sex,
-        name = "Participant Sex Breakdown",
-        type = "bar",
-        color = sex.df$Sex,
-        showlegend = FALSE) %>% 
+      sex.graph <- plot_ly(sex.df, ~Sex, ~ratio.sex, type = "bar", ~Sex, showlegend = FALSE) %>% 
         layout(title = title.sex, xaxis = x, yaxis = y)
       })
       
-    
+    View()
     
 }
 shinyServer(server)

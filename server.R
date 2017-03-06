@@ -4,74 +4,47 @@ library(ggplot2)
 library(plotly)
 library(tidyr)
 
-# setwd("~/Desktop/INFO 201 Autumn 17 HW/FinalProject")
 simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
-server <- function(input, output) {
+expected.matches <- select(simpleSpeedDating.df, ID, Expected.Matches) %>% 
+  unique() %>% 
+  drop_na() #
+  group_by(Race) %>% 
+  summarize(count = n()) %>% 
+  drop_na()
 
-    output$race.graph <- renderPlotly({
-        
-        # Creates a new df with "count" column, which counts the number of
-        # participants who identified with each race
-        count.per.race <- select(simpleSpeedDating.df, ID, Race) %>% 
-          unique() %>% 
-          group_by(Race) %>% 
-          summarize(count = n()) %>% 
-          drop_na()
-        # Number of total participants
-        total.participants <- sum(count.per.race$count)
-        # Creates df with percent breakdown
-        race.df <- mutate(count.per.race, percent.race = round(count/total.participants * 100, 2))
-        # Creates an x-axis title
-        x <- list(
-          title = "Race"
-        )
-        # Creates a y-axis title
-        y <- list(
-          title = "Percent"
-        )
-        # Creates a title for the race bar graph ***does not work***
-        title.race <- list(
-          title = "Race percent breakdown of all participants"
-        )
-        # Produces plotly bar graph of racial breakdown
-        race.graph <- plot_ly(
-          x = race.df$Race,
-          y = race.df$percent.race,
-          name = "Participant Racial Breakdown",
-          type = "bar",
-          color = race.df$Race,
-          showlegend = FALSE) %>% 
-          layout(title = title.race, xaxis = x, yaxis = y, margin = 200)
+  
+  #expected.matches$Expected.Matches[is.na(expected.matches$Expected.Matches)] <- mean(expected.matches$Expected.Matches)
+  
+  
+  speed.dating.df <- group_by(simpleSpeedDating.df, Partner.ID) %>% 
+    summarize(mean1 = mean(Overall.Like), mean2 = mean(Final.Attractiveness.Rating), mean3 = mean(Final.Sincerity.Rating)) %>% 
+    mutate(overall.success = (mean1 + mean2 + mean3)/3) %>% 
+    drop_na
+  View(speed.dating.df) 
+  
+server <- function(input, output) {
+  
+  third_vis_data <- reactive({
+    speed.dating.df <- simpleSpeedDating.df
+    speed.dating.df <- group_by(speed.dating.df, Partner.ID) %>% 
+                        summarize(mean1 = mean(Overall.Like), mean2 = mean(Final.Attractiveness.Rating), mean3 = mean(Final.Sincerity.Rating)) %>% 
+                        mutate(overall.success = (mean1 + mean2 + mean3)/3) %>% 
+                        drop_na
+    
+    
+    
+    names(speed.dating.df)[names(speed.dating.df) == "Partner.ID"] <- "ID"
+    speed.dating.df <- merge(x = speed.dating.df, y = simpleSpeedDating.df[ , c("ID", "Expected.Matches", "Attractiveness.4", "Sincerity.4", "Intelligence.4", "Fun.4", "Ambition.4", "Attractiveness.5", "Sincerity.5", "Intelligence.5", "Fun.5", "Ambition.5")], by = "ID", na.rm = TRUE) %>% 
+      unique()
+    
+    speed.dating.df$Expected.Matches.x <- (speed.dating.df$Expected.Matches.x)/20
+    
+    speed.dating.df$Attractiveness.4.x[speed.dating.df$Attractiveness.4.x <= 10] <- (speed.dating.df$Attractiveness.4.x[speed.dating.df$Attractiveness.4.x <= 10])/10
+    filter(speed.dating.df, "Attractiveness.4.x" < 10 | "Sincerity.4.x" < 10 | "Intelligence.4.x" < 10 | "Fun.4.x" < 10 | "Ambition.4.x" < 10)  
+    View(less.ten)
     })
-    
-    output$sex.graph <- renderPlotly({
-      count.per.sex <- select(simpleSpeedDating.df, ID, Sex) %>% 
-        unique() %>% 
-        group_by(Sex) %>% 
-        summarize(count = n()) %>% 
-        drop_na()
-      total.participants <- sum(count.per.sex$count)
-      # Creates df with percent breakdown
-      sex.df <- mutate(count.per.sex, ratio.sex = (count))
-      # Creates an x-axis title
-      x <- list(
-        title = "Sex"
-      )
-      # Creates a y-axis title
-      y <- list(
-        title = "Number of persons identified with respective gender"
-      )
-      # Creates a title for the sex bar graph ***does not work***
-      title.sex <- list(
-        title = "Sex breakdown of all participants"
-      )
-      # Produces plotly bar graph of sex breakdown
-      sex.graph <- plot_ly(sex.df, ~Sex, ~ratio.sex, type = "bar", ~Sex, showlegend = FALSE) %>% 
-        layout(title = title.sex, xaxis = x, yaxis = y)
-      })
-      
-    View()
-    
+ 
 }
+
 shinyServer(server)

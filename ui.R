@@ -26,6 +26,13 @@ ui <- fluidPage(
         ),
         selected = "Black/African American"
       ),
+      #Radio buttons to select if the Matches have met before
+      radioButtons(
+        "met_before",
+        label = h5("Matches Met Before:"),
+        choices = list("Both", "Have Met Before", "Have Not Met Before"),
+        selected = "Both"
+      ),
       #Radio buttons to select gender
       radioButtons(
         "sex_select",

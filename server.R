@@ -13,6 +13,14 @@ server <- function(input, output) {
   first.vis.data <- reactive({
     first.vis.speedDating <- simpleSpeedDating.df
     
+    if(input$met_before != "Before") {
+      if(input$met_before == "Have Met Before") {
+        first.vis.speedDating <- filter(first.vis.speedDating, Met.Before == 1)
+      } else {
+        first.vis.speedDating <- filter(first.vis.speedDating, Met.Before == 2)
+      }
+    }
+    
     #Filter data based on sex
     if (input$sex_select != "All") {
       first.vis.speedDating <-

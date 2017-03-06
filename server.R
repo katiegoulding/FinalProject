@@ -55,7 +55,7 @@ server <- function(input, output, session) {
   
  output$second.vis <- renderPlotly({
    plot_ly(second.vis.data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-   layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
+   layout(margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
  })
 
 

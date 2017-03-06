@@ -6,6 +6,8 @@ library(tidyr)
 
 simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
+View(simpleSpeedDating.df)
+
 server <- function(input, output, session) {
   data <- reactive({
     speed.dating.df <- simpleSpeedDating.df
@@ -32,13 +34,18 @@ server <- function(input, output, session) {
     #Get medians of the interests selected
     speed.dating.long <- group_by(speed.dating.long, Race, interest) %>%
                          summarize("Median" = median(rating, na.rm = TRUE))
-    
     return(speed.dating.long)
   })
-  
+
+  x <- list(
+    title = "Preference",
+    titlefont = NULL
+  )
+
+# add for more hover details text=data()$my_text, hoverinfo = "text+x+y")
  output$second.vis <- renderPlotly({
    plot_ly(data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-   layout(margin = 100)
+   layout(margin = 100, xaxis = x)
  })
 }
 

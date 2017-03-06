@@ -40,9 +40,10 @@ server <- function(input, output) {
       type = "bar"
     ) %>%
       layout(
-        xaxis = list(title = "Race of Partner", tickangle = 15),
+        title = "Percentage Breakdown of Racial Group Matches",
+        xaxis = list(title = "Race of Partner", tickangle = 25),
         yaxis = list(title = "Match Percentage"),
-        margin = 100
+        margin = list(b = 150)
       )
   })
   

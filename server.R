@@ -47,12 +47,7 @@ server <- function(input, output, session) {
    plot_ly(second.vis.data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
    layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
  })
- 
 
- 
- 
- 
- 
 }
 
 shinyServer(server)

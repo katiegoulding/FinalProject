@@ -35,6 +35,10 @@ server <- function(input, output) {
     speed.dating.df$overall.confidence <- (speed.dating.df$Attractiveness.4 + speed.dating.df$Sincerity.4 + speed.dating.df$Intelligence.4 + 
                                              speed.dating.df$Fun.4 + speed.dating.df$Ambition.4 + speed.dating.df$Attractiveness.5 + speed.dating.df$Sincerity.5 + speed.dating.df$Intelligence.5 + 
                                              speed.dating.df$Fun.5 + speed.dating.df$Ambition.5) / 10
+    
+    speed.dating.df <- filter(speed.dating.df, overall.confidence > input$confidence[1] & overall.confidence < input$confidence[2]) %>%
+    filter(overall.success > input$success[1] & overall.success < input$success[2])
+    
     return(speed.dating.df)
     })
   

@@ -32,7 +32,7 @@ server <- function(input, output) {
         )
         # Creates a title for the race bar graph ***does not work***
         title.race <- list(
-          title = "Race percent breakdown of all participants"
+          title = "Race Percent Breakdown of All Participants"
         )
         # Produces plotly bar graph of racial breakdown
         race.graph <- plot_ly(
@@ -42,7 +42,7 @@ server <- function(input, output) {
           type = "bar",
           color = race.df$Race,
           showlegend = FALSE) %>% 
-          layout(title = title.race, xaxis = x, yaxis = y, margin = 200)
+          layout(title = title.race, xaxis = x, yaxis = y, margin = list(b = 150, r = 30))
     })
     
     output$sex.graph <- renderPlotly({

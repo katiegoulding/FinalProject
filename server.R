@@ -38,12 +38,12 @@ server <- function(input, output, session) {
   })
 
 
-  x <- list(
-    title = "Preference",
-    titlefont = NULL
-  )
+  #x <- list(
+  #  title = "TESTTTTt",
+  #  titlefont = NULL
+  #)
 
-# add for more hover details text=data()$my_text, hoverinfo = "text+x+y")
+# add this for more hover details text=data()$my_text, hoverinfo = "text+x+y")
 
   yaxis.max <- reactive ({
     if(input$interest.select == "Attribute Rating") {

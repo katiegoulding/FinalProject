@@ -36,10 +36,23 @@ server <- function(input, output, session) {
     return(speed.dating.long)
   })
   
+  yaxis.max <- reactive ({
+    if(input$interest.select == "Attribute Rating") {
+      return(20)
+    }
+    return(10)
+  })
+  
  output$second.vis <- renderPlotly({
    plot_ly(data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-   layout(margin = 100)
+   layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
  })
+ 
+
+ 
+ 
+ 
+ 
 }
 
 shinyServer(server)

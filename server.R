@@ -60,13 +60,13 @@ server <- function(input, output, session) {
   output$second.vis.female <- renderPlotly({
       filter(second.vis.data(), Sex == 'Female') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-        layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
+        layout(title = "Female", margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
     })
   
   output$second.vis.male <- renderPlotly({
     filter(second.vis.data(), Sex == 'Male') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
+      layout(title = "Male", margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
   })
   
   

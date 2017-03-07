@@ -31,7 +31,9 @@ ui <- fluidPage(
     ),
     mainPanel(
       #Plot second visualization
-      plotlyOutput("second.vis")
+      plotlyOutput("second.vis.female"),
+      plotlyOutput("second.vis.male")
+      
     )
   )
 )

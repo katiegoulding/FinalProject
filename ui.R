@@ -13,7 +13,7 @@ simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFacto
 ui <- navbarPage(
   navbarPage("Speed Dating!",
              tabPanel("Home", 
-                      h3("Racial breakdown of participants"),
+                      h3("Race and Gender Breakdown of Participants"),
                       plotlyOutput("race.graph"),
                       h3("Sex breakdown of participants"),
                       plotlyOutput("sex.graph")),
@@ -22,7 +22,7 @@ ui <- navbarPage(
                         sidebarPanel(
                           
                           # Title for the sidebar for user understanding
-                          h4("Some sort of title"),
+                          h4("Home"),
                           br(),
                           checkboxGroupInput("race", "Race:",
                                              c("X" = "connect1",

@@ -13,9 +13,9 @@ server <- function(input, output) {
         
         # Creates a new df with "count" column, which counts the number of
         # participants who identified with each race
-        count.per.race <- select(simpleSpeedDating.df, ID, Race) %>% 
+        count.per.race <- select(simpleSpeedDating.df, ID, Race, Sex) %>% 
           unique() %>% 
-          group_by(Race) %>% 
+          group_by(Race, Sex) %>% 
           summarize(count = n()) %>% 
           drop_na()
         # Number of total participants
@@ -24,26 +24,30 @@ server <- function(input, output) {
         race.df <- mutate(count.per.race, percent.race = round(count/total.participants * 100, 2))
         # Creates an x-axis title
         x <- list(
-          title = "Race"
+          title = "Race/Gender"
         )
         # Creates a y-axis title
         y <- list(
           title = "Percent"
         )
         # Creates a title for the race bar graph ***does not work***
-        title.race <- list(
-          title = "Race Percent Breakdown of All Participants"
-        )
+        #title.race <- list(
+        #  title = "Race Percent Breakdown of All Participants"
+        #)
         # Produces plotly bar graph of racial breakdown
         race.graph <- plot_ly(
           x = race.df$Race,
           y = race.df$percent.race,
           name = "Participant Racial Breakdown",
           type = "bar",
-          color = race.df$Race,
-          showlegend = FALSE) %>% 
-          layout(title = title.race, xaxis = x, yaxis = y, margin = list(b = 150, r = 30))
+          color = race.df$Sex,
+          showlegend = TRUE) %>% 
+          #layout(title = title.race, xaxis = x, yaxis = y, margin = list(b = 150, r = 30))
+          layout(xaxis = x, yaxis = y, margin = list(b = 150, r = 30))
     })
+
+  
+
     
     output$sex.graph <- renderPlotly({
       count.per.sex <- select(simpleSpeedDating.df, ID, Sex) %>% 

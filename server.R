@@ -26,35 +26,30 @@ server <- function(input, output, session) {
     
     #Selecting interest
     if(input$interest.select == "Attribute Rating") {
-      speed.dating.df <- select(speed.dating.df, Race, `Partner Attractiveness`:`Partner Shared Interest`)
+      speed.dating.df <- select(speed.dating.df, Race, Sex, `Partner Attractiveness`:`Partner Shared Interest`)
+
     }
     if(input$interest.select == "Hobbies") {
-      speed.dating.df <- select(speed.dating.df, Race, Sports:Yoga)
+      speed.dating.df <- select(speed.dating.df, Race, Sex, Sports:Yoga)
     }
     if(input$interest.select == "Importance of Race or Religion") {
-      speed.dating.df <- select(speed.dating.df, Race, `Importance of Same Race`, `Importance of Same Religion`)
+      speed.dating.df <- select(speed.dating.df, Race, Sex, `Importance of Same Race`, `Importance of Same Religion`)
     }
     
     #Convert df to long format
     speed.dating.long <- gather(speed.dating.df,
                                 key = interest,
                                 value = rating,
-                                2:ncol(speed.dating.df))
+                                3:ncol(speed.dating.df))
     
     #Get medians of the interests selected
-    speed.dating.long <- group_by(speed.dating.long, Race, interest) %>%
-                         summarize("Median" = median(rating, na.rm = TRUE))
+    speed.dating.long <- group_by(speed.dating.long, Race, interest, Sex) %>%
+      summarize("Median" = median(rating, na.rm = TRUE))
     return(speed.dating.long)
   })
-
-
-  #x <- list(
-  #  title = "TESTTTTt",
-  #  titlefont = NULL
-  #)
-
-# add this for more hover details text=data()$my_text, hoverinfo = "text+x+y")
-
+  
+  # add this for more hover details text=data()$my_text, hoverinfo = "text+x+y")
+  
   yaxis.max <- reactive ({
     if(input$interest.select == "Attribute Rating") {
       return(20)
@@ -62,15 +57,20 @@ server <- function(input, output, session) {
     return(10)
   })
   
+  output$second.vis.female <- renderPlotly({
+      filter(second.vis.data(), Sex == 'Female') %>%
+      plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
+        layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
+    })
   
- output$second.vis <- renderPlotly({
-   plot_ly(second.vis.data(), x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-   layout(margin = list(b = 150, r = 100), yaxis = list(range = c(0, yaxis.max())))
- })
-
+  output$second.vis.male <- renderPlotly({
+    filter(second.vis.data(), Sex == 'Male') %>%
+      plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
+      layout(margin = 100, yaxis = list(range = c(0, yaxis.max())))
+  })
+  
+  
 
 }
 
 shinyServer(server)
-
-

@@ -50,4 +50,4 @@ server <- function(input, output) {
   
 }
 
-shinyServer(server)
+shinyServer(server) 

@@ -24,7 +24,6 @@ server <- function(input, output) {
     simpleSpeedDating.df$Sincerity.5[is.na(simpleSpeedDating.df$Sincerity.5)] <- mean(simpleSpeedDating.df$Sincerity.5, na.rm = TRUE)
     
     simpleSpeedDating.df$Expected.Matches[is.na(simpleSpeedDating.df$Expected.Matches)] <- mean(simpleSpeedDating.df$Expected.Matches, na.rm = TRUE)
-    View(simpleSpeedDating.df)
     speed.dating.df <- merge(x = speed.dating.df, y = simpleSpeedDating.df[ , c("ID", "Expected.Matches", "Attractiveness.4", "Sincerity.4", "Intelligence.4", "Fun.4",
                                                                                 "Ambition.4", "Attractiveness.5", "Sincerity.5", "Intelligence.5", "Fun.5", "Ambition.5")], by = "ID", na.rm = TRUE) %>% 
                         unique()
@@ -43,7 +42,7 @@ server <- function(input, output) {
   })
   
   output$third.vis <- renderPlotly({
-    pal <- c("#529A86", "#6C5B7B")
+    pal <- c("#006bfa", "#ede800")
     plot_ly(third_vis_data(), x = ~overall.confidence, y = ~overall.success, color = ~Sex, colors = pal, opacity = 0.7) %>% 
           layout(yaxis = list(range = c(0, 1), title = "Success of Participant", dtick = .2, tick0 = 0),
                  xaxis = list(title = "Confidence of Participant", tick0 = 0, dtick = .2, range = c(0, 1)))

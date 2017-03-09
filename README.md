@@ -29,3 +29,6 @@ ideas off of other people."
 
 > Sean : "Working with a group using GitHub and being able to bounce ideas
 off of each other made the project more engaging and industry-like."
+
+[Link to the data set we used](https://carowa.shinyapps.io/final_group_project/)
+[Link to the data set study](http://faculty.chicagobooth.edu/emir.kamenica/documents/genderDifferences.pdf)

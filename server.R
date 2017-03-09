@@ -55,5 +55,7 @@ server <- function(input, output) {
       )
   })
   
+  ## lm(outcome ~ ___ + ___) %>% 
+  
 }
 shinyServer(server)

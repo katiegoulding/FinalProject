@@ -13,16 +13,25 @@ simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFacto
 ui <- navbarPage(
   navbarPage("Speed Dating!",
              tabPanel("Home", 
-                      h3("Racial breakdown of participants"),
+                      h3("Race and Gender Breakdown of Participants"),
                       plotlyOutput("race.graph"),
-                      h3("Sex breakdown of participants"),
-                      plotlyOutput("sex.graph")),
+                      p("The dataset that this report interacts with has been collected from Columbia Business School professors Ray Fisman and Sheena Iyengar.
+                      The report contains information from 551 participants that performed a number of randomized four minute speed dates.  During the date they
+                      were asked to rank their date on a variety of factors, and after the date was completed, they indicated whether they would want to see their date again.
+                      If each date indicated yes, then they would be sent each other's email addresses the following day, this was to make the study have potential real world implications.
+                      As noted by the creators of the study, “we made a special effort to ensure that our design creates a setting similar to that provided by the private firms operating in this market.
+                      They were also asked to rate their date on six attributes: Attractiveness, Sincerity, Intelligence, Fun, Ambition, and Shared Interests (Fisman and Iyengar)”  		
+                      This report focuses on finding new insights not covered in Fisman and Iyengar’s report.  Disclaimer:  All responses are from Columbia University graduate students, thus,
+                      we can expect different proportions of racial groups, socioeconomic status, and more to be represented differently compared to the United States population.
+                      Additionally we recognize that 75% of the students involved in this study are from the United States.  There is a total of 551 participants and 4 distinct racial groups,
+                      with an additional “Other” category included. 55% of the participants are European / Caucasian.")
+             ),
              tabPanel("Tool - Find Match",
                       sidebarLayout(
                         sidebarPanel(
                           
                           # Title for the sidebar for user understanding
-                          h4("Some sort of title"),
+                          h4("Home"),
                           br(),
                           checkboxGroupInput("race", "Race:",
                                              c("X" = "connect1",

@@ -13,9 +13,9 @@ server <- function(input, output) {
         
         # Creates a new df with "count" column, which counts the number of
         # participants who identified with each race
-        count.per.race <- select(simpleSpeedDating.df, ID, Race) %>% 
+        count.per.race <- select(simpleSpeedDating.df, ID, Race, Sex) %>% 
           unique() %>% 
-          group_by(Race) %>% 
+          group_by(Race, Sex) %>% 
           summarize(count = n()) %>% 
           drop_na()
         # Number of total participants
@@ -23,28 +23,35 @@ server <- function(input, output) {
         # Creates df with percent breakdown
         race.df <- mutate(count.per.race, percent.race = round(count/total.participants * 100, 2))
         # Creates an x-axis title
-        x <- list(
-          title = "Race"
+        y <- list(
+          title = ""
         )
         # Creates a y-axis title
-        y <- list(
+        x <- list(
           title = "Percent"
         )
         # Creates a title for the race bar graph ***does not work***
-        title.race <- list(
-          title = "Race percent breakdown of all participants"
-        )
+        #title.race <- list(
+        #  title = "Race Percent Breakdown of All Participants"
+        #)
+        
+        pal <- c("#006bfa", "#ede800")
+        
         # Produces plotly bar graph of racial breakdown
         race.graph <- plot_ly(
-          x = race.df$Race,
-          y = race.df$percent.race,
+          x = race.df$percent.race,
+          y = race.df$Race,
           name = "Participant Racial Breakdown",
           type = "bar",
-          color = race.df$Race,
-          showlegend = FALSE) %>% 
-          layout(title = title.race, xaxis = x, yaxis = y, margin = 200)
+          orientation = "h",
+          color = race.df$Sex,
+          colors = pal,
+          showlegend = TRUE) %>% 
+          #layout(title = title.race, xaxis = x, yaxis = y, margin = list(b = 150, r = 30))
+          layout(xaxis = x, yaxis = y, margin = list(b = 150, r = 30, l = 200))
     })
     
+<<<<<<< HEAD
     output$sex.graph <- renderPlotly({
       count.per.sex <- select(simpleSpeedDating.df, ID, Sex) %>% 
         unique() %>% 
@@ -73,5 +80,7 @@ server <- function(input, output) {
       
     View()
     
+=======
+>>>>>>> 0e717f82bd64a7568fd83f6892f08e93377f8877
 }
 shinyServer(server)

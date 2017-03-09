@@ -30,10 +30,7 @@ server <- function(input, output) {
         x <- list(
           title = "Percent"
         )
-        # Creates a title for the race bar graph ***does not work***
-        #title.race <- list(
-        #  title = "Race Percent Breakdown of All Participants"
-        #)
+
         
         pal <- c("#006bfa", "#ede800")
         
@@ -51,7 +48,7 @@ server <- function(input, output) {
           layout(xaxis = x, yaxis = y, margin = list(b = 150, r = 30, l = 200))
     })
     
-<<<<<<< HEAD
+
     output$sex.graph <- renderPlotly({
       count.per.sex <- select(simpleSpeedDating.df, ID, Sex) %>% 
         unique() %>% 
@@ -79,8 +76,6 @@ server <- function(input, output) {
       })
       
     View()
-    
-=======
->>>>>>> 0e717f82bd64a7568fd83f6892f08e93377f8877
+
 }
 shinyServer(server)

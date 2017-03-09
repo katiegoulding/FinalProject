@@ -4,8 +4,12 @@ library(ggplot2)
 library(plotly)
 library(tidyr)
 
-server <- function(input, output, session) {
+
+speed.data <- read.csv("data/simpleSpeedDating.df.csv")
+
+
+server <- function(input, output) {
+  
   
 }
-
 shinyServer(server)

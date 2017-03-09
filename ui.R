@@ -79,14 +79,12 @@ ui <- navbarPage(
                            Thus, it is critical to understand that the trends in this report do not represent greater populations.
                            These insights can be helpful to understand how a contained group of people interact, especially in romantic
                            circumstances, rather than to create broad stereotypes of groups.")
-                         )),
-    tabPanel("Characteristics"
-            ),
-    tabPanel("Confidence & Success"
-            ),
-    tabPanel("Works Cited")
-  
-    )
-))
+                         )
+               )
+    ),
+    tabPanel("Characteristics"),
+    tabPanel("Confidence & Success")
+  )
+)
 
 shinyUI(ui)

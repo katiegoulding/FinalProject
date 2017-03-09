@@ -3,16 +3,19 @@ library(dplyr)
 library(plotly)
 library(ggplot2)
 
-simpleSpeedDating.df <-
-  read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
+#Read in cleansed dataframe
+simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
+
 
 ui <- navbarPage(
+# Create a navigation bar page
     navbarPage(
     "Speed Dating Data App & Report",
     tabPanel("Home",
              h2("Speed Dating Data App & Report"),
              hr(),
              h4("Race and Gender Breakdown of Participants"),
+             #Outputs plotly bar chart of the racial and gender breakdown of the participants
              plotlyOutput("race.graph"),
              h4("Intro:"),
              p("The dataset that this report interacts with has been collected from Columbia Business School in 2004 by professors Ray Fisman and Sheena Iyengar.
@@ -27,6 +30,8 @@ ui <- navbarPage(
                         These insights can be helpful to understand how a contained group of people interact, especially in romantic circumstances, rather than to create broad stereotypes of groups.
                         Disclaimer #2: This study was conducted under the assumption of gender as a binary, misleading the audience to further catergorize gender.")
     ),
+    
+#Creates a tab in the navigation bar that provides the match percentage per racial group, sex, and whether the match had met before
     tabPanel("Match Percentage",
              sidebarLayout(
                sidebarPanel(
@@ -63,6 +68,7 @@ ui <- navbarPage(
                ),
                
                mainPanel(h3("Percentage Breakdown of Racial Group Matches"),
+                         #Output the plotly bar chart visualization comparing race to match percentage
                          plotlyOutput("first.vis"), 
                          h4("Intro:"),
                          p("This interactive visualization allows the user to look at the
@@ -99,6 +105,8 @@ ui <- navbarPage(
                          )
                )
     ),
+
+#Creates a tab in the navigation bar containing two bar charts (male and female) comparing selected characteristics to the median rating of the respective attribute.
     tabPanel("Characteristics",
     sidebarLayout(
       sidebarPanel(
@@ -122,11 +130,14 @@ ui <- navbarPage(
                      selected = NULL, inline = FALSE
         )
       ),
+      
+
       mainPanel(
-        #Plot second visualization
         h3(textOutput("second.vis.title"), em("Female")),
+        #Output plotly barchart visualization of female data
         plotlyOutput("second.vis.female"),
         h3(textOutput("second.vis.title.two"), em("Male")),
+        #Output plotly barchart visualization of male data
         plotlyOutput("second.vis.male"),
         h4("Intro:"),
         p("This interactive visualization allows the user to compare racial groups and their preferences on specific
@@ -168,16 +179,20 @@ ui <- navbarPage(
         )
       )
     ),
+#Creates a panel in the navigation bar that contains a plot of confidence vs success
     tabPanel("Confidence & Success",
       sidebarLayout(
         sidebarPanel(
+      #Creates an input slider that allows a user to select a confidence range
       sliderInput("confidence", label = h5("Select confidence range:"), min = 0.35,  max = 0.97, value = c(0.35, 0.97)
       ),
+      #Creates an input slider that allows a user to select a success range
       sliderInput("success", label = h5("Select success range:"), min = 0.45,  max = 0.85, value = c(0.45, 0.85)
       )
     ),
     mainPanel(
       h3("Confidence vs. Success"),
+      #Output plot of success vs confidence
       plotlyOutput("third.vis"),
       h4("Intro:"),
       p("This graph plots the participant's confidence of meeting a potential mate against their success level.
@@ -217,8 +232,10 @@ ui <- navbarPage(
       )
     )
     ),
+#Create a panel in the navigation bar that provides our citations
    tabPanel("Citations",
       h3("Source of the study:"),
+      #Creates a hyperlink to the study conducted at Columbia University
       tags$a(href="http://faculty.chicagobooth.edu/emir.kamenica/documents/genderDifferences.pdf", "Link to Columbia University study"),
       hr(),
       p("Thank you! Katie Goulding, Sean Campbell, Parker Singh, August Carow")

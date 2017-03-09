@@ -25,11 +25,11 @@ server <- function(input, output, session) {
     speed.dating.df <- filter(speed.dating.df, Race == input$racial.group.1 | Race == input$racial.group.2)
     
     #Selecting interest
-    if(input$interest.select == "Attribute Rating") {
+    if(input$interest.select == "Importance of Partner Attributes") {
       speed.dating.df <- select(speed.dating.df, Race, Sex, `Partner Attractiveness`:`Partner Shared Interest`)
 
     }
-    if(input$interest.select == "Hobbies") {
+    if(input$interest.select == "Participant's Interest in Hobbies") {
       speed.dating.df <- select(speed.dating.df, Race, Sex, Sports:Yoga)
     }
     if(input$interest.select == "Importance of Race or Religion") {
@@ -50,23 +50,37 @@ server <- function(input, output, session) {
   
   # add this for more hover details text=data()$my_text, hoverinfo = "text+x+y")
   
-  yaxis.max <- reactive ({
-    if(input$interest.select == "Attribute Rating") {
+  yaxis.second.max <- reactive ({
+    if(input$interest.select == "Importance of Partner Attributes") {
       return(25)
     }
     return(10)
   })
   
+  xaxis.second.title <- reactive({
+    if(input$interest.select == "Importance of Partner Attributes") {
+      return("Partner Attributes")
+    }
+    
+    if(input$interest.select == "Participant's Interest in Hobbies") {
+      return("Participant Hobbies")
+    }
+    
+    if(input$interest.select == "Importance of Race or Religion") {
+      return("Race or Religion")
+    }
+  })
+  
   output$second.vis.female <- renderPlotly({
       filter(second.vis.data(), Sex == 'Female') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(title = "Female", margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
+      layout(margin = list(b = 150), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
     })
   
   output$second.vis.male <- renderPlotly({
     filter(second.vis.data(), Sex == 'Male') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(title = "Male", margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
+      layout(margin = list(b = 150), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
   })
   
   

@@ -25,17 +25,21 @@ ui <- fluidPage(
                                  "Other"), selected = "European/Caucasian American"),
       #Radiobuttons to select the interest to view
       radioButtons("interest.select", label = h5("Select an Interest:"),
-                   choices = list("Attribute Rating", "Hobbies", "Importance of Race or Religion"),
+                   choices = list("Importance of Partner Attributes", "Participant's Interest in Hobbies", "Importance of Race or Religion"),
                    selected = NULL, inline = FALSE
       )
     ),
     mainPanel(
       #Plot second visualization
-      h3("test female"),
+      h3("Importance of Partner Attributes Female"),
       plotlyOutput("second.vis.female"),
-      h3("test male"),
-      plotlyOutput("second.vis.male")
-      
+      h3("Importance of Partner Attributes Male"),
+      plotlyOutput("second.vis.male"),
+      p("	This interactive visualization allows the user to compare racial groups and their preferences on specific qualities of their partner.  
+        The groups are broken down into attribute rating, hobbies, and importance of race and religion.  The attribute rating focuses on preference 
+        of partner ambition, attractiveness, fun, intelligence, shared interest, and sincerity.  The hobby category compares art, clubbing, gaming, 
+        sports, and yoga as general interests.  Lastly, this visualization performs a comparison on race and how it effects the importance of race 
+        and religion in seeing the person on another date.  The visualization is further broken down into two graphs based on gender.")
     )
   )
 )

@@ -48,6 +48,12 @@ ui <- navbarPage(
                         )
                       )
              ),
+             
+             tabPanel("Citations",
+                      h1("Source of the study:"),
+                      tags$a(href="http://faculty.chicagobooth.edu/emir.kamenica/documents/genderDifferences.pdf", "Link to Columbia University study")                      
+                      
+                      ),
              navbarMenu("More",
                         tabPanel("About Our Group",
                                  p("table")

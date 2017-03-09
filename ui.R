@@ -9,10 +9,10 @@ simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFacto
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      sliderInput("confidence", label = h5("Select confidence range:"), min = 0.36,  max = 0.97, value = c(0.36, 0.97)
+      sliderInput("confidence", label = h5("Select confidence range:"), min = 0.35,  max = 0.97, value = c(0.35, 0.97)
       ),
 
-      sliderInput("success", label = h5("Select success range:"), min = 0.5,  max = 0.85, value = c(0.5, 0.85)
+      sliderInput("success", label = h5("Select success range:"), min = 0.45,  max = 0.85, value = c(0.45, 0.85)
       )
     ),
     mainPanel(
@@ -46,9 +46,9 @@ ui <- fluidPage(
       h5("For each question, we calculated the mean score per participant. Then, we calculated the mean of the three mean scores.
          The resulting value determined the success score for each participant."),
 
-      h3(strong("Summary")),
-      h5("We plotted the composite confidence and success scores, allowing our audience to notice the clustering of participants
-        who were seemingly more confident than successful.")
+      h3(strong("Insights")),
+      h5("Looking at the plotted composite confidence and success scores, we are able to see the large amount of clustering that occurred.  
+         This clustering shows that a majority of the participants are slightly more confident than are successful.")
       )
   )
 )

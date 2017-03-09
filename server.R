@@ -52,7 +52,7 @@ server <- function(input, output, session) {
   
   yaxis.max <- reactive ({
     if(input$interest.select == "Attribute Rating") {
-      return(20)
+      return(25)
     }
     return(10)
   })
@@ -60,7 +60,7 @@ server <- function(input, output, session) {
   output$second.vis.female <- renderPlotly({
       filter(second.vis.data(), Sex == 'Female') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-        layout(title = "Female", margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
+      layout(title = "Female", margin = list(b = 150), yaxis = list(range = c(0, yaxis.max())))
     })
   
   output$second.vis.male <- renderPlotly({

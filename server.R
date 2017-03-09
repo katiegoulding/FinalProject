@@ -13,7 +13,7 @@ server <- function(input, output) {
   first.vis.data <- reactive({
     first.vis.speedDating <- simpleSpeedDating.df
     
-    if(input$met_before != "Before") {
+    if(input$met_before != "Both") {
       if(input$met_before == "Have Met Before") {
         first.vis.speedDating <- filter(first.vis.speedDating, Met.Before == 1)
       } else {
@@ -37,20 +37,25 @@ server <- function(input, output) {
                Race.of.Partner != "NA") %>%
       mutate("Percentage" = (Interactions / `Total Interactions`) * 100)
     return(first.vis.speedDating)
+    
   })
   
   #Render data in plotly bar  chart
   output$first.vis <- renderPlotly({
+    pal <- c("#ca0020", "#f4a582", "#f7f7f7", "#92c5de", "#0571b0")
     plot_ly(
       first.vis.data(),
       x = ~ Race.of.Partner,
       y = ~ Percentage,
+      colors = pal,
+      color = ~ Race.of.Partner,
       type = "bar"
     ) %>%
       layout(
         title = "Percentage Breakdown of Racial Group Matches",
         xaxis = list(title = "Race of Partner", tickangle = 25),
         yaxis = list(title = "Match Percentage"),
+        showlegend = FALSE,
         margin = list(b = 150)
       )
   })

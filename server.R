@@ -15,7 +15,7 @@ server <- function(input, output) {
       summarize(mean1 = mean(Overall.Like), mean2 = mean(Final.Attractiveness.Rating), mean3 = mean(Final.Sincerity.Rating)) %>%
       mutate(overall.success = (mean1 + mean2 + mean3)/3) %>%
       drop_na
-    View(speed.dating.df)
+    #View(speed.dating.df)
 
     names(speed.dating.df)[names(speed.dating.df) == "Partner.ID"] <- "ID"
     simpleSpeedDating.df$Attractiveness.5[is.na(simpleSpeedDating.df$Attractiveness.5)] <- mean(simpleSpeedDating.df$Attractiveness.5, na.rm = TRUE)

@@ -9,10 +9,10 @@ simpleSpeedDating.df <- read.csv("data/simpleSpeedDating.df.csv", stringsAsFacto
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      sliderInput("confidence", label = h5("Select confidence range:"), min = 0,  max = 1, value = c(0, 1)
+      sliderInput("confidence", label = h5("Select confidence range:"), min = 0.36,  max = 0.97, value = c(0.36, 0.97)
       ),
 
-      sliderInput("success", label = h5("Select success range:"), min = 0,  max = 1, value = c(0, 1)
+      sliderInput("success", label = h5("Select success range:"), min = 0.5,  max = 0.85, value = c(0.5, 0.85)
       )
     ),
     mainPanel(

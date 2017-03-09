@@ -132,13 +132,13 @@ server <- function(input, output) {
   output$second.vis.female <- renderPlotly({
       filter(second.vis.data(), Sex == 'Female') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(margin = list(b = 50), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
+      layout(margin = list(b = 85), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
     })
   
   output$second.vis.male <- renderPlotly({
     filter(second.vis.data(), Sex == 'Male') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(margin = list(b = 50), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
+      layout(margin = list(b = 85), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
   })
 
   third_vis_data <- reactive({

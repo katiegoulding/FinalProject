@@ -1,9 +1,11 @@
+# Libraries we use in this report.
 library(shiny)
 library(dplyr)
 library(ggplot2)
 library(plotly)
 library(tidyr)
 
+#Reading in the data frame
 simpleSpeedDating.df <-
   read.csv("data/simpleSpeedDating.df.csv", stringsAsFactors = FALSE)
 
@@ -19,7 +21,7 @@ colnames(simpleSpeedDating.df)[which(names(simpleSpeedDating.df) == "Importance.
 
 server <- function(input, output) {
   
-  #Create reactive data for plot based on widgets
+  #Creating a reactive data for plot based on widgets
   first.vis.data <- reactive({
     first.vis.speedDating <- simpleSpeedDating.df
     
@@ -50,7 +52,7 @@ server <- function(input, output) {
     
   })
   
-  #Render data in plotly bar  chart
+  #Rendering data in plotly bar chart
   output$first.vis <- renderPlotly({
     pal <- c("#ca0020", "#f4a582", "#f7f7f7", "#92c5de", "#0571b0")
     plot_ly(
@@ -69,6 +71,7 @@ server <- function(input, output) {
       )
   })
 
+  #Creating a reactive variable for the second visualization
   second.vis.data <- reactive({
     speed.dating.df <- simpleSpeedDating.df
     #Selecting racial groups
@@ -98,8 +101,7 @@ server <- function(input, output) {
     return(speed.dating.long)
   })
   
-  # add this for more hover details text=data()$my_text, hoverinfo = "text+x+y")
-  
+  #Adjusting the yaxis max for the graph
   yaxis.second.max <- reactive ({
     if(input$interest.select == "Importance of Partner Attributes") {
       return(25)
@@ -107,6 +109,7 @@ server <- function(input, output) {
     return(10)
   })
   
+  #Adjusting the title for the second vis
   second.vis.title.react <- reactive({
     if(input$interest.select == "Importance of Partner Attributes") {
       return("Importance of Partner Attributes")
@@ -121,34 +124,39 @@ server <- function(input, output) {
     }
   })
   
+  #Rendering the second vis title for male
   output$second.vis.title <- renderText({
     return(second.vis.title.react())
   })
   
+  #Rendering the second vis title for female
   output$second.vis.title.two <- renderText({
     return(second.vis.title.react())
   })
   
+  #Rendering the female plot
   output$second.vis.female <- renderPlotly({
       filter(second.vis.data(), Sex == 'Female') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
       layout(margin = list(b = 50), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
     })
   
+  #Rendering the male plot
   output$second.vis.male <- renderPlotly({
     filter(second.vis.data(), Sex == 'Male') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
       layout(margin = list(b = 50), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
   })
 
+  #Reactive data for the third vis
   third_vis_data <- reactive({
     speed.dating.df <- simpleSpeedDating.df
 
+    #Cleaning data for third vis
     speed.dating.df <- group_by(speed.dating.df, Partner.ID, Sex) %>%
       summarize(mean1 = mean(Overall.Like), mean2 = mean(Final.Attractiveness.Rating), mean3 = mean(Final.Sincerity.Rating)) %>%
       mutate(overall.success = (mean1 + mean2 + mean3)/3) %>%
       drop_na
-    #View(speed.dating.df)
 
     names(speed.dating.df)[names(speed.dating.df) == "Partner.ID"] <- "ID"
     simpleSpeedDating.df$Attractiveness.5[is.na(simpleSpeedDating.df$Attractiveness.5)] <- mean(simpleSpeedDating.df$Attractiveness.5, na.rm = TRUE)
@@ -175,6 +183,7 @@ server <- function(input, output) {
     return(speed.dating.df)
   })
 
+  #Rendering the third vis plot
   output$third.vis <- renderPlotly({
     pal <- c("#006bfa", "#ede800")
     plot_ly(third_vis_data(), x = ~overall.confidence, y = ~overall.success, color = ~Sex, colors = pal, opacity = 0.7) %>%
@@ -182,6 +191,7 @@ server <- function(input, output) {
                  xaxis = list(title = "Confidence of Participant", tick0 = 0, dtick = .2, range = c(0, 1)))
   })
 
+  #Rendering the home graph plot
   output$race.graph <- renderPlotly({
         # Creates a new df with "count" column, which counts the number of
         # participants who identified with each race
@@ -218,34 +228,6 @@ server <- function(input, output) {
           #layout(title = title.race, xaxis = x, yaxis = y, margin = list(b = 150, r = 30))
           layout(xaxis = x, yaxis = y, margin = list(b = 50, r = 30, l = 200))
     })
-    
-
-    output$sex.graph <- renderPlotly({
-      count.per.sex <- select(simpleSpeedDating.df, ID, Sex) %>% 
-        unique() %>% 
-        group_by(Sex) %>% 
-        summarize(count = n()) %>% 
-        drop_na()
-      total.participants <- sum(count.per.sex$count)
-      # Creates df with percent breakdown
-      sex.df <- mutate(count.per.sex, ratio.sex = (count))
-      # Creates an x-axis title
-      x <- list(
-        title = "Sex"
-      )
-      # Creates a y-axis title
-      y <- list(
-        title = "Number of persons identified with respective gender"
-      )
-      # Creates a title for the sex bar graph ***does not work***
-      title.sex <- list(
-        title = "Sex breakdown of all participants"
-      )
-      # Produces plotly bar graph of sex breakdown
-      sex.graph <- plot_ly(sex.df, ~Sex, ~ratio.sex, type = "bar", ~Sex, showlegend = FALSE) %>% 
-        layout(title = title.sex, xaxis = x, yaxis = y)
-      })
-
 }
 
 shinyServer(server)

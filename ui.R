@@ -31,9 +31,9 @@ ui <- fluidPage(
     ),
     mainPanel(
       #Plot second visualization
-      h3("Importance of Partner Attributes Female"),
+      h3(textOutput("second.vis.title"), " -Female"),
       plotlyOutput("second.vis.female"),
-      h3("Importance of Partner Attributes Male"),
+      h3(textOutput("second.vis.title.two"), " -Male"),
       plotlyOutput("second.vis.male"),
       p("	This interactive visualization allows the user to compare racial groups and their preferences on specific qualities of their partner.  
         The groups are broken down into attribute rating, hobbies, and importance of race and religion.  The attribute rating focuses on preference 

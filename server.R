@@ -57,30 +57,38 @@ server <- function(input, output, session) {
     return(10)
   })
   
-  xaxis.second.title <- reactive({
+  second.vis.title.react <- reactive({
     if(input$interest.select == "Importance of Partner Attributes") {
-      return("Partner Attributes")
+      return("Importance of Partner Attributes")
     }
     
     if(input$interest.select == "Participant's Interest in Hobbies") {
-      return("Participant Hobbies")
+      return("Participant's Interest in Certain Hobbies")
     }
     
     if(input$interest.select == "Importance of Race or Religion") {
-      return("Race or Religion")
+      return("Importance of Race or Religion to Participant")
     }
+  })
+  
+  output$second.vis.title <- renderText({
+    return(second.vis.title.react())
+  })
+  
+  output$second.vis.title.two <- renderText({
+    return(second.vis.title.react())
   })
   
   output$second.vis.female <- renderPlotly({
       filter(second.vis.data(), Sex == 'Female') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(margin = list(b = 150), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
+      layout(margin = list(b = 150), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
     })
   
   output$second.vis.male <- renderPlotly({
     filter(second.vis.data(), Sex == 'Male') %>%
       plot_ly(x = ~interest, y = ~Median, type = "bar", color = ~Race) %>%
-      layout(margin = list(b = 150), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
+      layout(margin = list(b = 150), xaxis = list(title = ""), yaxis = list(title = "Median Rating", range = c(0, yaxis.second.max())))
   })
   
   
